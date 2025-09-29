@@ -113,6 +113,16 @@ This will output a `.pdbqt` file named `7K99_dock.pdbqt`. Your receptor is now s
 
 ---
 
+#### Flexible Docking
+Flexible docking requires a few extra steps in the ligand preparation procedure:
+- Choose the residues you want to be treated as flexible. Flexible docking increases the compute time, hence, care must be taken to choose the most impactful residues to make flexible. The following are some guidelines to choose them:
+    - Should restrict the ligand from entering the pocket.
+    - Should preferably have interaction with the ligand.
+    - Should be bulky enough to have an effect on binding affinity values(Gly, Ala etc. are too small to have a difference even if assigned rotatable bonds)
+- Prepare a `flex_residues.pdbqt` which has the side chain coordinates of the flexible residues to be chosen. Simply copy-paste the lines of the side chains and take special care of the exact spaces in between each column. Usually the flexible residue file has the last column(T) differently-spaced from the original protein file. Just adjust the last column by adding two spaces before it. 
+- Remove the backbone atoms of that residue from the rigid protein `.pdbqt` file.
+- Assigning which bonds to treat as rotatable is also important. Go through the working examples (`Flex_examples.pdbqt`)to know how to assign them.
+
 ### Ligand Preparation
 
 You can download the drugs of your particular interest from the Drugbank database using various filters available on their website. In this tutorial, we will be carrying out drug repurposing using a library of all approved drugs, `Drugbank_3D.sdf`. As you will find when you view this file in any text editor, this is a single SDF file which has 3D coordinates of all molecules along with loads of other data like IC50, SMILES Representation, Common Name, physiological parameters etc. separated by a `$$$$` line. This means we have to split this file into individual SDF files. To do so, copy the below written snippet of code from `Obabel_prep.sh` and run the following command in the directory where you want to store your split SDF files:
